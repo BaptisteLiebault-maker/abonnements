@@ -1,0 +1,895 @@
+/* ---------- COULEURS ----------
+   Change ces valeurs pour changer les couleurs de tout le site */
+:root {
+  --fond: #f5f6f8;
+  --carte: #ffffff;
+  --texte: #16181d;
+  --texte-doux: #5c6370;
+  --accent: #4f46e5;
+  --bordure: #e4e6eb;
+  --vert: #16a34a;
+  --bleu: #2563eb;
+  --orange: #ea580c;
+  --rouge: #dc2626;
+}
+
+/* Mode sombre automatique */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fond: #0f1115;
+    --carte: #171a21;
+    --texte: #eef0f4;
+    --texte-doux: #9aa1ad;
+    --accent: #818cf8;
+    --bordure: #262a33;
+    --vert: #4ade80;
+    --bleu: #60a5fa;
+    --orange: #fb923c;
+    --rouge: #f87171;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+body {
+  margin: 0;
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  line-height: 1.5;
+  color: var(--texte);
+  background: var(--fond);
+}
+
+p {
+  margin: 0;
+}
+
+.contenu {
+  max-width: 1150px;
+  margin: 0 auto;
+  padding-inline: 1.5rem;
+}
+
+/* ---------- EN-TÊTE ---------- */
+header {
+  background: var(--carte);
+  border-bottom: 1px solid var(--bordure);
+}
+
+.barre {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding-block: 1rem;
+}
+
+.logo {
+  font-size: 1.3rem;
+  font-weight: 800;
+}
+
+.prive {
+  font-size: 0.85rem;
+  color: var(--texte-doux);
+}
+
+/* ---------- INTRO ---------- */
+.intro {
+  padding-block: 3.5rem 2rem;
+}
+
+h1 {
+  margin: 0 0 1rem;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+
+.intro p {
+  max-width: 40rem;
+  font-size: 1.1rem;
+  color: var(--texte-doux);
+}
+
+h2 {
+  margin: 0 0 1.2rem;
+  font-size: 1.15rem;
+  font-weight: 800;
+}
+
+/* ---------- RÉSUMÉ ---------- */
+.resume {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.chiffre {
+  padding: 1.4rem 1.5rem;
+  background: var(--carte);
+  border: 1px solid var(--bordure);
+  border-radius: 16px;
+}
+
+.chiffre-titre {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--texte-doux);
+}
+
+.chiffre-valeur {
+  margin-top: 0.3rem;
+  font-size: 1.9rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.chiffre-note {
+  font-size: 0.8rem;
+  color: var(--texte-doux);
+}
+
+.economie {
+  border-color: color-mix(in srgb, var(--vert) 40%, transparent);
+  background: color-mix(in srgb, var(--vert) 8%, var(--carte));
+}
+
+.economie .chiffre-valeur {
+  color: var(--vert);
+}
+
+/* ---------- ALERTE ---------- */
+.alerte {
+  display: flex;
+  gap: 0.8rem;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+  padding: 1rem 1.2rem;
+  background: color-mix(in srgb, var(--orange) 10%, var(--carte));
+  border: 1px solid color-mix(in srgb, var(--orange) 40%, transparent);
+  border-radius: 12px;
+}
+
+#alerteTexte {
+  white-space: pre-line;          /* un conseil par ligne */
+}
+
+.alerte-icone {
+  font-size: 1.3rem;
+}
+
+/* ---------- COLONNES ---------- */
+.colonnes {
+  display: grid;
+  grid-template-columns: minmax(0, 380px) minmax(0, 1fr);
+  gap: 1.5rem;
+  align-items: start;
+  padding-bottom: 3rem;
+}
+
+@media (max-width: 860px) {
+  .colonnes {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.gauche {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.carte {
+  padding: 1.6rem;
+  background: var(--carte);
+  border: 1px solid var(--bordure);
+  border-radius: 16px;
+}
+
+/* ---------- FORMULAIRE ---------- */
+.label,
+label,
+legend {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--texte-doux);
+}
+
+.suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0.5rem 0 1.4rem;
+}
+
+.suggestion {
+  padding: 0.35rem 0.75rem;
+  font: inherit;
+  font-size: 0.8rem;
+  color: var(--texte);
+  background: var(--fond);
+  border: 1px solid var(--bordure);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.suggestion:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+form {
+  display: grid;
+  gap: 1rem;
+}
+
+label {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.ligne {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8rem;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 0.7rem 0.8rem;
+  font: inherit;
+  font-size: 0.95rem;
+  color: var(--texte);
+  background: var(--fond);
+  border: 1px solid var(--bordure);
+  border-radius: 10px;
+}
+
+input:focus,
+select:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+fieldset {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.usages {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.4rem;
+  margin-top: 0.4rem;
+}
+
+.usages label {
+  position: relative;
+}
+
+.usages input {
+  position: absolute;
+  opacity: 0;
+}
+
+.usages span {
+  display: block;
+  padding: 0.55rem 0.2rem;
+  font-size: 0.8rem;
+  text-align: center;
+  color: var(--texte);
+  background: var(--fond);
+  border: 1px solid var(--bordure);
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.usages input:checked + span {
+  color: #fff;
+  background: var(--couleur);
+  border-color: var(--couleur);
+}
+
+.usages input:focus-visible + span {
+  outline: 2px solid var(--accent);
+}
+
+.boutons {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.bouton {
+  flex: 1;
+  padding: 0.8rem 1.2rem;
+  font: inherit;
+  font-weight: 600;
+  color: #fff;
+  background: var(--accent);
+  border: 0;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.15s, opacity 0.15s;
+}
+
+.bouton:hover {
+  opacity: 0.9;
+}
+
+.bouton:active {
+  transform: scale(0.98);
+}
+
+.bouton.secondaire {
+  color: var(--texte);
+  background: var(--fond);
+  border: 1px solid var(--bordure);
+}
+
+/* ---------- CATÉGORIES ---------- */
+.categorie {
+  margin-bottom: 0.9rem;
+}
+
+.categorie-haut {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.categorie-montant {
+  font-weight: 600;
+}
+
+.barre-fond {
+  height: 8px;
+  margin-top: 0.35rem;
+  background: var(--fond);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.barre-remplie {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.4s;
+}
+
+.rien {
+  font-size: 0.9rem;
+  color: var(--texte-doux);
+}
+
+/* ---------- LISTE ---------- */
+.liste-entete {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+  margin-bottom: 1rem;
+}
+
+.liste-entete h2 {
+  margin: 0;
+}
+
+.filtres {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.filtres select {
+  width: auto;
+  padding: 0.45rem 0.6rem;
+  font-size: 0.85rem;
+}
+
+.case {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+}
+
+.case input {
+  width: auto;
+}
+
+.liste {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.abo {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto auto;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.9rem 0;
+  border-top: 1px solid var(--bordure);
+  animation: arrive 0.3s ease-out;
+}
+
+.abo.a-revoir .abo-nom::after {
+  content: " · à revoir";
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--orange);
+}
+
+.abo-icone {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  font-size: 1.3rem;
+  border-radius: 12px;
+}
+
+.abo-nom {
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.abo-details {
+  font-size: 0.82rem;
+  color: var(--texte-doux);
+}
+
+.abo-details .bientot {
+  font-weight: 600;
+  color: var(--orange);
+}
+
+/* Conseil "passe à l'offre moins chère", sur sa propre ligne */
+.abo-details .astuce {
+  display: block;
+  font-weight: 600;
+  color: var(--vert);
+}
+
+.badge {
+  padding: 0.25rem 0.6rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--couleur);
+  background: color-mix(in srgb, var(--couleur) 12%, transparent);
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.abo-prix {
+  text-align: right;
+}
+
+.prix {
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.par-mois {
+  font-size: 0.78rem;
+  color: var(--texte-doux);
+  white-space: nowrap;
+}
+
+.abo-actions {
+  display: flex;
+  gap: 0.2rem;
+}
+
+.petit-bouton {
+  padding: 0.4rem 0.5rem;
+  font: inherit;
+  font-size: 0.9rem;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.petit-bouton:hover {
+  background: var(--fond);
+  border-color: var(--bordure);
+}
+
+.petit-bouton.confirmer {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #fff;
+  background: var(--rouge);
+}
+
+/* Sur téléphone, la ligne passe sur deux étages */
+@media (max-width: 560px) {
+  .abo {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+  }
+
+  .badge {
+    grid-column: 2;
+    justify-self: start;
+  }
+
+  .abo-actions {
+    grid-column: 3;
+    grid-row: 2;
+  }
+}
+
+.vide {
+  padding: 3rem 1rem;
+  text-align: center;
+  color: var(--texte-doux);
+}
+
+.vide-emoji {
+  margin-bottom: 0.5rem;
+  font-size: 2.5rem;
+}
+
+@keyframes arrive {
+  from { opacity: 0; transform: translateY(6px); }
+}
+
+footer {
+  padding-block: 2rem;
+  font-size: 0.85rem;
+  color: var(--texte-doux);
+  border-top: 1px solid var(--bordure);
+}
+
+/* ---------- IMPORT DU RELEVÉ ---------- */
+.import {
+  margin-bottom: 1.5rem;
+}
+
+.import h2 {
+  margin-bottom: 0.4rem;
+}
+
+.import-texte {
+  margin-bottom: 1.2rem;
+  color: var(--texte-doux);
+}
+
+.depot {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 1.8rem 1rem;
+  text-align: center;
+  background: var(--fond);
+  border: 2px dashed var(--bordure);
+  border-radius: 14px;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.depot:hover,
+.depot.survol,
+.depot:focus-within {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 6%, var(--fond));
+}
+
+/* Le vrai bouton "Choisir un fichier" est caché : toute la zone sert de bouton */
+.depot input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.depot-icone {
+  font-size: 2rem;
+}
+
+.depot-titre {
+  font-size: 1rem;
+  color: var(--texte);
+}
+
+.depot-note {
+  font-weight: 400;
+}
+
+.aide {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: var(--texte-doux);
+}
+
+.aide summary {
+  font-weight: 600;
+  color: var(--accent);
+  cursor: pointer;
+}
+
+.aide ol {
+  margin: 0.6rem 0 0;
+  padding-left: 1.3rem;
+}
+
+.aide li + li {
+  margin-top: 0.3rem;
+}
+
+.import-message {
+  margin-top: 1.2rem;
+  padding: 0.9rem 1.1rem;
+  font-size: 0.92rem;
+  background: var(--fond);
+  border: 1px solid var(--bordure);
+  border-radius: 10px;
+}
+
+.import-message.erreur {
+  background: color-mix(in srgb, var(--orange) 10%, var(--carte));
+  border-color: color-mix(in srgb, var(--orange) 40%, transparent);
+}
+
+.import-message.succes {
+  background: color-mix(in srgb, var(--vert) 10%, var(--carte));
+  border-color: color-mix(in srgb, var(--vert) 40%, transparent);
+}
+
+.detections {
+  margin: 1rem 0 1.2rem;
+  padding: 0;
+  list-style: none;
+}
+
+.detection {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.9rem 0;
+  border-top: 1px solid var(--bordure);
+}
+
+.detection.deja {
+  opacity: 0.6;
+}
+
+.det-choisir {
+  width: 1.25rem;
+  height: 1.25rem;
+  padding: 0;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+.det-haut {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.det-nom {
+  width: auto;
+  max-width: 16rem;
+  padding: 0.3rem 0.5rem;
+  font-weight: 600;
+}
+
+.det-details {
+  margin-top: 0.3rem;
+  font-size: 0.82rem;
+  color: var(--texte-doux);
+}
+
+/* Le libellé de la banque, pour reconnaître le paiement */
+.det-libelle {
+  font-family: ui-monospace, monospace;
+  font-size: 0.72rem;
+  color: var(--texte-doux);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.det-choix {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.4rem;
+}
+
+.det-choix select {
+  width: auto;
+  padding: 0.4rem 0.5rem;
+  font-size: 0.82rem;
+}
+
+.bouton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Sur téléphone, les menus passent sous le nom */
+@media (max-width: 700px) {
+  .detection {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .det-choix {
+    grid-column: 2;
+    justify-content: flex-start;
+  }
+}
+
+/* ---------- RÉSILIATION ---------- */
+.abo-actions .resilier {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--rouge);
+  border-color: color-mix(in srgb, var(--rouge) 40%, transparent);
+}
+
+.abo-actions .resilier:hover {
+  color: #fff;
+  background: var(--rouge);
+  border-color: var(--rouge);
+}
+
+.bloc-resilies {
+  margin-top: 1.5rem;
+}
+
+.bloc-resilies h3 {
+  margin: 0 0 0.3rem;
+  font-size: 0.95rem;
+  color: var(--texte-doux);
+}
+
+.abo.resilie {
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+  opacity: 0.75;
+}
+
+.abo.resilie .abo-icone {
+  font-weight: 800;
+  color: var(--vert);
+  background: color-mix(in srgb, var(--vert) 14%, transparent);
+}
+
+.abo.resilie .prix {
+  color: var(--vert);
+}
+
+.fenetre {
+  width: min(560px, calc(100vw - 2rem));
+  max-height: calc(100vh - 2rem);
+  padding: 1.6rem;
+  color: var(--texte);
+  background: var(--carte);
+  border: 1px solid var(--bordure);
+  border-radius: 16px;
+}
+
+.fenetre::backdrop {
+  background: rgb(0 0 0 / 0.45);
+}
+
+.fenetre-haut {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.4rem;
+}
+
+.fenetre-haut h2 {
+  margin: 0;
+}
+
+.fenetre > * + * {
+  margin-top: 1rem;
+}
+
+.res-intro,
+.res-note,
+.res-loi {
+  font-size: 0.88rem;
+  color: var(--texte-doux);
+}
+
+.bouton-lien {
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
+}
+
+.res-etapes {
+  margin: 0.9rem 0 0;
+  padding-left: 1.3rem;
+}
+
+.res-etapes li + li {
+  margin-top: 0.35rem;
+}
+
+.res-note {
+  margin-top: 0.6rem;
+}
+
+.res-encadre {
+  padding: 0.9rem 1rem;
+  font-size: 0.88rem;
+  background: var(--fond);
+  border-radius: 10px;
+}
+
+.res-liens {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1rem;
+  margin-top: 0.5rem;
+}
+
+.res-liens a {
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.res-liens span {
+  color: var(--texte-doux);
+}
+
+.res-lettre summary {
+  font-weight: 600;
+  color: var(--accent);
+  cursor: pointer;
+}
+
+.res-lettre > * + * {
+  margin-top: 0.9rem;
+}
+
+.res-lettre textarea {
+  width: 100%;
+  padding: 0.7rem 0.8rem;
+  font: inherit;
+  font-size: 0.88rem;
+  color: var(--texte);
+  background: var(--fond);
+  border: 1px solid var(--bordure);
+  border-radius: 10px;
+  resize: vertical;
+}
+
+.res-lettre .boutons {
+  flex-wrap: wrap;
+}
+
+.res-loi {
+  padding-top: 1rem;
+  border-top: 1px solid var(--bordure);
+}
+
+@media (max-width: 560px) {
+  .abo.resilie {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+  }
+}

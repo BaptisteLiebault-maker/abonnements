@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Abo. — Tous tes abonnements</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header>
+    <div class="contenu barre">
+      <span class="logo">Abo.</span>
+      <span class="prive">🔒 Tes données restent sur ton ordinateur</span>
+    </div>
+  </header>
+
+  <main class="contenu">
+
+    <!-- INTRO -->
+    <section class="intro">
+      <h1>Tous tes abonnements,<br>au même endroit.</h1>
+      <p>Ajoute ce que tu paies chaque mois, choisis de le garder, le diminuer ou l'enlever, et découvre combien tu pourrais économiser.</p>
+    </section>
+
+    <!-- RÉSUMÉ : 4 chiffres clés -->
+    <section class="resume">
+      <div class="chiffre">
+        <p class="chiffre-titre">Par mois</p>
+        <p class="chiffre-valeur" id="totalMois">0 €</p>
+      </div>
+      <div class="chiffre">
+        <p class="chiffre-titre">Par an</p>
+        <p class="chiffre-valeur" id="totalAn">0 €</p>
+      </div>
+      <div class="chiffre">
+        <p class="chiffre-titre">Abonnements</p>
+        <p class="chiffre-valeur" id="nombre">0</p>
+      </div>
+      <div class="chiffre economie">
+        <p class="chiffre-titre">Économies possibles</p>
+        <p class="chiffre-valeur" id="economies">0 €</p>
+        <p class="chiffre-note" id="economiesDetail">par an</p>
+      </div>
+      <div class="chiffre economie" id="carteEconomise" hidden>
+        <p class="chiffre-titre">Déjà économisé</p>
+        <p class="chiffre-valeur" id="economise">0 €</p>
+        <p class="chiffre-note" id="economiseDetail">par an</p>
+      </div>
+    </section>
+
+    <!-- ALERTE : abonnements peu utilisés -->
+    <div class="alerte" id="alerte" hidden>
+      <span class="alerte-icone">💡</span>
+      <p id="alerteTexte"></p>
+    </div>
+
+    <!-- IMPORT : retrouver ses abonnements dans son relevé bancaire -->
+    <section class="carte import">
+      <h2>Retrouver mes abonnements automatiquement</h2>
+      <p class="import-texte">Dépose le relevé de ton compte bancaire : le site repère tout seul les paiements qui reviennent chaque semaine, chaque mois ou chaque année.</p>
+
+      <label class="depot" id="depot">
+        <input type="file" id="fichierReleve" accept=".csv,.txt,.ofx,.qfx,.qif,text/csv" multiple>
+        <span class="depot-icone">🏦</span>
+        <span class="depot-titre">Glisse ton relevé ici, ou clique pour le choisir</span>
+        <span class="depot-note">Fichier CSV, OFX ou QIF · idéalement 3 mois ou plus · il n'est jamais envoyé sur Internet</span>
+      </label>
+
+      <details class="aide">
+        <summary>Comment obtenir ce fichier ?</summary>
+        <ol>
+          <li>Connecte-toi sur le site de ta banque (c'est plus simple sur ordinateur que sur l'appli).</li>
+          <li>Ouvre ton compte courant et cherche « Télécharger », « Exporter » ou « Export des opérations ».</li>
+          <li>Choisis le format <strong>CSV</strong> (ou OFX, QIF) et une période d'au moins 3 mois.</li>
+          <li>Dépose le fichier ci-dessus. Tu peux en déposer plusieurs d'un coup, par exemple un par mois.</li>
+        </ol>
+      </details>
+
+      <p class="import-message" id="importMessage" hidden></p>
+
+      <div id="importResultats" hidden>
+        <ul class="detections" id="detections"></ul>
+        <div class="boutons">
+          <button type="button" class="bouton" id="boutonImporter">Ajouter la sélection</button>
+          <button type="button" class="bouton secondaire" id="boutonFermerImport">Fermer</button>
+        </div>
+      </div>
+    </section>
+
+    <div class="colonnes">
+
+      <!-- COLONNE GAUCHE : formulaire + catégories -->
+      <div class="gauche">
+        <section class="carte" id="carteFormulaire">
+          <h2 id="titreFormulaire">Ajouter un abonnement</h2>
+
+          <p class="label">Ajout rapide</p>
+          <div class="suggestions" id="suggestions"></div>
+
+          <form id="formulaire">
+            <label>
+              Nom
+              <input id="nom" placeholder="Ex : Netflix" required maxlength="40" autocomplete="off">
+            </label>
+
+            <!-- Visible seulement pour un service connu : choisir son offre remplit le prix -->
+            <label id="champOffre" hidden>
+              Offre
+              <select id="offre"></select>
+            </label>
+
+            <div class="ligne">
+              <label>
+                Prix (€)
+                <input id="prix" type="number" min="0.01" step="0.01" placeholder="9,99" required>
+              </label>
+              <label>
+                Tous les…
+                <select id="frequence">
+                  <option value="mois">Mois</option>
+                  <option value="an">Ans</option>
+                  <option value="semaine">Semaines</option>
+                </select>
+              </label>
+            </div>
+
+            <!-- Pas de catégorie à choisir : le site la devine avec le nom -->
+            <label>
+              Prochain paiement
+              <input id="date" type="date">
+            </label>
+
+            <fieldset>
+              <legend>Cet abonnement, tu veux…</legend>
+              <div class="usages" id="usages"></div>
+            </fieldset>
+
+            <!-- Visible seulement avec "Le diminuer", pour un service dont on ne connaît pas les offres -->
+            <label id="champPrixVise" hidden>
+              Prix que tu vises (€)
+              <input id="prixVise" type="number" min="0.01" step="0.01" placeholder="Ex : 5,99">
+            </label>
+
+            <div class="boutons">
+              <button type="submit" class="bouton" id="boutonValider">Ajouter</button>
+              <button type="button" class="bouton secondaire" id="boutonAnnuler" hidden>Annuler</button>
+            </div>
+          </form>
+        </section>
+
+        <section class="carte">
+          <h2>Par catégorie</h2>
+          <div id="categories"></div>
+        </section>
+      </div>
+
+      <!-- COLONNE DROITE : la liste -->
+      <section class="carte droite">
+        <div class="liste-entete">
+          <h2>Mes abonnements</h2>
+          <div class="filtres">
+            <label class="case">
+              <input type="checkbox" id="filtreARevoir">
+              À revoir seulement
+            </label>
+            <select id="tri" aria-label="Trier">
+              <option value="prix">Les plus chers</option>
+              <option value="date">Prochain paiement</option>
+              <option value="usage">À revoir d'abord</option>
+              <option value="nom">Nom (A → Z)</option>
+            </select>
+          </div>
+        </div>
+
+        <ul class="liste" id="liste"></ul>
+
+        <!-- Abonnements résiliés : ils ne comptent plus dans les totaux -->
+        <div class="bloc-resilies" id="blocResilies" hidden>
+          <h3>Résiliés</h3>
+          <ul class="liste" id="listeResilies"></ul>
+        </div>
+
+        <div class="vide" id="vide">
+          <p class="vide-emoji">🧾</p>
+          <p>Aucun abonnement pour l'instant.<br>Ajoute ton premier avec le formulaire !</p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="contenu">
+    Abo. — fait avec HTML, CSS et JavaScript. Rien n'est envoyé sur Internet.
+  </footer>
+
+  <!-- Modèle d'une ligne de la liste : le JavaScript le copie pour chaque abonnement -->
+  <template id="modeleLigne">
+    <li class="abo">
+      <div class="abo-icone"></div>
+      <div class="abo-info">
+        <p class="abo-nom"></p>
+        <p class="abo-details"></p>
+      </div>
+      <span class="badge"></span>
+      <div class="abo-prix">
+        <p class="prix"></p>
+        <p class="par-mois"></p>
+      </div>
+      <div class="abo-actions">
+        <button class="petit-bouton resilier" title="M'aider à résilier">Résilier</button>
+        <button class="petit-bouton modifier" title="Modifier">✏️</button>
+        <button class="petit-bouton supprimer" title="Supprimer">🗑️</button>
+      </div>
+    </li>
+  </template>
+
+  <!-- Modèle d'un abonnement trouvé dans le relevé -->
+  <template id="modeleDetection">
+    <li class="detection">
+      <input type="checkbox" class="det-choisir" aria-label="Ajouter cet abonnement">
+      <div class="det-info">
+        <div class="det-haut">
+          <input class="det-nom" maxlength="40" aria-label="Nom de l'abonnement">
+          <span class="badge"></span>
+        </div>
+        <p class="det-details"></p>
+        <p class="det-libelle"></p>
+      </div>
+      <div class="det-choix">
+        <select class="det-frequence" aria-label="Prix et fréquence"></select>
+        <select class="det-usage" aria-label="Cet abonnement, tu veux…"></select>
+      </div>
+    </li>
+  </template>
+
+  <!-- Fenêtre d'aide pour résilier un abonnement (remplie par resiliation.js) -->
+  <dialog class="fenetre" id="fenetreResiliation" aria-labelledby="resTitre">
+    <div class="fenetre-haut">
+      <h2 id="resTitre"></h2>
+      <button type="button" class="petit-bouton" id="resFermer" aria-label="Fermer">✕</button>
+    </div>
+
+    <p class="res-intro">Seule la personne qui a le compte peut résilier : voici le chemin le plus court.</p>
+
+    <div id="resEnLigne">
+      <a class="bouton bouton-lien" id="resLien" target="_blank" rel="noopener"></a>
+      <ol class="res-etapes" id="resEtapes"></ol>
+      <p class="res-note" id="resNote"></p>
+    </div>
+
+    <div class="res-encadre">
+      <p><strong>Tu paies via ton iPhone, ton téléphone Android ou ta box ?</strong> Alors c'est là-bas qu'il faut résilier, pas sur le site du service :</p>
+      <p class="res-liens">
+        <a href="https://support.apple.com/fr-fr/HT202039" target="_blank" rel="noopener">Abonnements Apple ↗</a>
+        <a href="https://play.google.com/store/account/subscriptions" target="_blank" rel="noopener">Abonnements Google Play ↗</a>
+        <span>ou l'espace client de ta box</span>
+      </p>
+    </div>
+
+    <details class="res-lettre" id="resLettre">
+      <summary>Pas de bouton en ligne ? Envoyer une lettre de résiliation</summary>
+      <div class="ligne">
+        <label>
+          Prénom et nom
+          <input id="resIdentite" autocomplete="name">
+        </label>
+        <label>
+          N° client ou email du compte
+          <input id="resNumero">
+        </label>
+      </div>
+      <label>
+        Ton adresse
+        <textarea id="resAdresse" rows="2" autocomplete="street-address"></textarea>
+      </label>
+      <label>
+        La lettre (tu peux la modifier)
+        <textarea id="resTexte" rows="13"></textarea>
+      </label>
+      <div class="boutons">
+        <button type="button" class="bouton secondaire" id="resCopier">Copier</button>
+        <a class="bouton secondaire bouton-lien" id="resEmail">Envoyer par email</a>
+        <button type="button" class="bouton secondaire" id="resImprimer">Imprimer</button>
+      </div>
+      <p class="res-note">Pour une salle de sport, une assurance ou une box, envoie-la en recommandé avec accusé de réception : c'est ta preuve. Ton nom et ton adresse restent sur ton ordinateur.</p>
+    </details>
+
+    <p class="res-loi">⚖️ Bon à savoir : depuis juin 2023, si tu t'es abonné en ligne, le service doit te proposer une résiliation en ligne gratuite et facile à trouver (« résiliation en 3 clics »). Elle ne change pas la durée d'engagement ni le préavis.</p>
+
+    <div class="boutons">
+      <button type="button" class="bouton" id="resFait">J'ai résilié ✓</button>
+      <button type="button" class="bouton secondaire" id="resPlusTard">Plus tard</button>
+    </div>
+  </dialog>
+
+  <script src="app.js"></script>
+  <script src="resiliation.js"></script>
+  <script src="import.js"></script>
+</body>
+</html>
